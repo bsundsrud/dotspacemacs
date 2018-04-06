@@ -18,10 +18,10 @@
   )
 
 (defun bs-rust/init-lsp-rust ()
-  (with-eval-after-load 'lsp-mode
-    (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-    (require 'lsp-rust)
-    (add-hook 'rust-mode-hook #'lsp-rust-enable)))
+  (use-package lsp-rust
+    :defer t
+    :init (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
+    :config (add-hook 'rust-mode-hook #'lsp-rust-enable)))
 
 (defun bs-rust/post-init-flycheck-rust ()
   (add-hook 'rust-mode-hook #'flycheck-mode))
