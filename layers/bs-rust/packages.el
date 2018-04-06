@@ -9,24 +9,6 @@
 ;;
 ;;; License: GPLv3
 
-;;; Commentary:
-
-;; See the Spacemacs documentation and FAQs for instructions on how to implement
-;; a new layer:
-;;
-;;   SPC h SPC layers RET
-;;
-;;
-;; Briefly, each package to be installed or configured by this layer should be
-;; added to `bs-rust-packages'. Then, for each package PACKAGE:
-;;
-;; - If PACKAGE is not referenced by any other Spacemacs layer, define a
-;;   function `bs-rust/init-PACKAGE' to load and initialize the package.
-
-;; - Otherwise, PACKAGE is already referenced by another Spacemacs layer, so
-;;   define the functions `bs-rust/pre-init-PACKAGE' and/or
-;;   `bs-rust/post-init-PACKAGE' to customize the package as it is loaded.
-
 ;;; Code:
 
 (defconst bs-rust-packages
@@ -36,12 +18,10 @@
   )
 
 (defun bs-rust/init-lsp-rust ()
-  (progn
-    (message "%s" "init lsp-rust")
-    (with-eval-after-load 'lsp-mode
-      (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-      (require 'lsp-rust)
-      (add-hook 'rust-mode-hook #'lsp-rust-enable))))
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
+    (require 'lsp-rust)
+    (add-hook 'rust-mode-hook #'lsp-rust-enable)))
 
 (defun bs-rust/post-init-flycheck-rust ()
   (add-hook 'rust-mode-hook #'flycheck-mode))
