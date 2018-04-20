@@ -13,20 +13,20 @@
 
 (defconst bs-rust-packages
   '(flycheck-rust
+    lsp-mode
     lsp-rust
     )
   )
 
 (defun bs-rust/init-lsp-rust ()
-  (use-package lsp-rust
-    :defer t
-    :init (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-    :config (add-hook 'rust-mode-hook #'lsp-rust-enable)))
+  (progn
+    (with-eval-after-load 'lsp-mode
+      (progn
+        (add-hook 'rust-mode-hook #'lsp-rust-enable)
+        (add-hook 'rust-mode-hook #'flycheck-mode)
+        (use-package lsp-rust)))
 
-(defun bs-rust/post-init-flycheck-rust ()
-  (add-hook 'rust-mode-hook #'flycheck-mode))
+    (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))))
 
-(defun bs-rust/init-lsp-ui ()
-  (use-package lsp-ui
-    :defer t))
 ;;; packages.el ends here
+
